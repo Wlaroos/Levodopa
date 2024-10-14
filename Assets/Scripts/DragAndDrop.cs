@@ -5,6 +5,7 @@ public class DragAndDrop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 {
     private Vector2 prevPos;
     private Vector2 offset;
+    [SerializeField] private bool _clampToScreen = true;
 
     private Rect GetScreenBounds()
     {
@@ -40,9 +41,12 @@ public class DragAndDrop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         Vector2 objectSize = GetObjectSize();
 
         // Clamp the position within the screen bounds, taking the object's size into account
-        Rect screenBounds = GetScreenBounds();
-        newPosition.x = Mathf.Clamp(newPosition.x, screenBounds.xMin + objectSize.x / 2, screenBounds.xMax - objectSize.x / 2);
-        newPosition.y = Mathf.Clamp(newPosition.y, screenBounds.yMin + objectSize.y / 2, screenBounds.yMax - objectSize.y / 2);
+        if (_clampToScreen)
+        {
+            Rect screenBounds = GetScreenBounds();
+            newPosition.x = Mathf.Clamp(newPosition.x, screenBounds.xMin + objectSize.x / 2, screenBounds.xMax - objectSize.x / 2);
+            newPosition.y = Mathf.Clamp(newPosition.y, screenBounds.yMin + objectSize.y / 2, screenBounds.yMax - objectSize.y / 2);
+        }
 
         transform.position = newPosition;
     }
