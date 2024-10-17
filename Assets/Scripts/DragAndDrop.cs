@@ -47,6 +47,12 @@ public class DragAndDrop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             newPosition.x = Mathf.Clamp(newPosition.x, screenBounds.xMin + objectSize.x / 2, screenBounds.xMax - objectSize.x / 2);
             newPosition.y = Mathf.Clamp(newPosition.y, screenBounds.yMin + objectSize.y / 2, screenBounds.yMax - objectSize.y / 2);
         }
+        else
+        {
+            Rect screenBounds = GetScreenBounds();
+            newPosition.x = Mathf.Clamp(newPosition.x, screenBounds.xMin - objectSize.x / 4, screenBounds.xMax + objectSize.x / 4);
+            newPosition.y = Mathf.Clamp(newPosition.y, screenBounds.yMin - objectSize.y / 4 , screenBounds.yMax + objectSize.y / 4);
+        }
 
         transform.position = newPosition;
     }

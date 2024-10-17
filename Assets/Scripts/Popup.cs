@@ -11,7 +11,7 @@ public class Popup : MonoBehaviour
     
     private void Awake()
     {
-        transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = _screenName;
+        transform.GetChild(0).Find("Screen Name").GetComponent<TextMeshProUGUI>().text = _screenName;
         HidePopup();
     }
     
