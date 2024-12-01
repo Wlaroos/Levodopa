@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RoomManager : MonoBehaviour
 {
@@ -29,7 +30,11 @@ public class RoomManager : MonoBehaviour
     [SerializeField] private GameObject _leftButton;
     [SerializeField] private GameObject _rightButton;
     
-    private GameObject _currentRoom;
+    public GameObject _currentRoom;
+    
+    private UnityAction _backAction;
+    private UnityAction _leftAction;
+    private UnityAction _rightAction;
     
     private void Awake()
     {
@@ -48,6 +53,10 @@ public class RoomManager : MonoBehaviour
     private void ShowBackButton()
     {
         _backButton.SetActive(true);
+        
+        // I don't know why this has to be here. It breaks if I put it in SetButtonListeners. Wasted like 2 hours trying to figure this out.
+        _backButton.GetComponent<Hover>()._event.RemoveAllListeners();
+        _backButton.GetComponent<Hover>()._event.AddListener(_backAction);
     }
     private void HideBackButton()
     {
@@ -62,6 +71,15 @@ public class RoomManager : MonoBehaviour
     {
         _leftButton.SetActive(false);
         _rightButton.SetActive(false);
+    }
+
+    private void SetButtonListeners()
+    {
+        _leftButton.GetComponent<Hover>()._event.RemoveAllListeners();
+        _rightButton.GetComponent<Hover>()._event.RemoveAllListeners();
+        
+        _leftButton.GetComponent<Hover>()._event.AddListener(_leftAction);
+        _rightButton.GetComponent<Hover>()._event.AddListener(_rightAction);
     }
 
     private void ShowBackgroundWalls()
@@ -99,6 +117,9 @@ public class RoomManager : MonoBehaviour
         ShowSmallBackgroundWalls();
         
         _currentRoom = _anatomyRoom;
+        _backAction = ShowAnatomyRoom;
+        
+        SetButtonListeners();
     }
     
     public void ShowStorageRoom()
@@ -109,6 +130,9 @@ public class RoomManager : MonoBehaviour
         ShowSmallBackgroundWalls();
         
         _currentRoom = _storageRoom;
+        _backAction = ShowStorageRoom;
+        
+        SetButtonListeners();
     }
     
     public void ShowScrawlRoom()
@@ -116,9 +140,16 @@ public class RoomManager : MonoBehaviour
         _currentRoom.SetActive(false);
         _scrawlRoom.SetActive(true);
         
-        ShowBackgroundWalls();
+        _bgWalls.SetActive(true);
+        _bgSmallRoomWalls.SetActive(false);
+        
+        ShowBackButton();
+        HideSideButtons();
         
         _currentRoom = _scrawlRoom;
+        _backAction = ShowScrawlRoom;
+        
+        SetButtonListeners();
     }
 
     public void ShowDoubleDoors()
@@ -129,6 +160,12 @@ public class RoomManager : MonoBehaviour
         ShowBackgroundWalls();
         
         _currentRoom = _doubleDoors;
+        _backAction = ShowDoubleDoors;
+        
+        _leftAction = ShowEntranceDoor;
+        _rightAction = ShowMinigameAndPC;
+        
+        SetButtonListeners();
     }
 
     public void ShowEntranceDoor()
@@ -139,6 +176,12 @@ public class RoomManager : MonoBehaviour
         ShowBackgroundWalls();
         
         _currentRoom = _entranceDoor;
+        _backAction = ShowEntranceDoor;
+        
+        _leftAction = ShowScrawlRoomDoor;
+        _rightAction = ShowDoubleDoors;
+        
+        SetButtonListeners();
     }
 
     public void ShowMinigameAndPC()
@@ -149,6 +192,12 @@ public class RoomManager : MonoBehaviour
         ShowBackgroundWalls();
         
         _currentRoom = _miniGameAndPC;
+        _backAction = ShowMinigameAndPC;
+        
+        _leftAction = ShowDoubleDoors;
+        _rightAction = ShowScrawlRoomDoor;
+        
+        SetButtonListeners();
     }
 
     public void ShowScrawlRoomDoor()
@@ -159,6 +208,12 @@ public class RoomManager : MonoBehaviour
         ShowBackgroundWalls();
         
         _currentRoom = _scrawlRoomDoor;
+        _backAction = ShowScrawlRoomDoor;
+        
+        _leftAction = ShowMinigameAndPC;
+        _rightAction = ShowEntranceDoor;
+        
+        SetButtonListeners();
     }
 
     public void ShowFilingCabinetClose()
@@ -169,6 +224,9 @@ public class RoomManager : MonoBehaviour
         ShowNoWalls();
         
         _currentRoom = _filingCabinetClose;
+        _backAction = ShowFilingCabinetClose;
+        
+        SetButtonListeners();
     }
 
     public void ShowKeypadClose()
@@ -179,9 +237,12 @@ public class RoomManager : MonoBehaviour
         ShowNoWalls();
         
         _currentRoom = _keypadClose;
+        _backAction = ShowKeypadClose;
+        
+        SetButtonListeners();
     }
 
-    public void ShowPCDDeskClose()
+    public void ShowPCDeskClose()
     {
         _currentRoom.SetActive(false);
         _pcDeskClose.SetActive(true);
@@ -189,6 +250,9 @@ public class RoomManager : MonoBehaviour
         ShowNoWalls();
         
         _currentRoom = _pcDeskClose;
+        _backAction = ShowPCDeskClose;
+        
+        SetButtonListeners();
     }
 
     public void ShowTrashcanClose()
@@ -199,5 +263,8 @@ public class RoomManager : MonoBehaviour
         ShowNoWalls();
         
         _currentRoom = _trashcanClose;
+        _backAction = ShowTrashcanClose;
+        
+        SetButtonListeners();
     }
 }

@@ -1,12 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Events;
-using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
+using UnityEngine;
+
 
 public class Hover : MonoBehaviour
 {
@@ -32,7 +26,7 @@ public class Hover : MonoBehaviour
         ScrawlRoomDoor,
         FilingCabinetClose,
         KeypadClose,
-        PCDDeskClose,
+        PCDeskClose,
         TrashcanClose
     };
 
@@ -47,6 +41,36 @@ public class Hover : MonoBehaviour
         
         _rm = FindObjectOfType<RoomManager>();
 
+        ActionSwitcher();
+    }
+    
+    private void OnMouseOver()
+    {
+        if (!_once)
+        {
+            _sr.material = _outlineMat;
+            _once = true;
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        _sr.material = _defaultMat;
+        _once = false;
+    }
+
+    private void OnMouseDown()
+    {
+        _event.Invoke();
+        
+        _sr.material = _defaultMat;
+        _once = false;
+        
+        Debug.Log(_rm._currentRoom);
+    }
+
+    private void ActionSwitcher()
+    {
         switch (roomToOpen)
         {
             case RoomToOpen.AnatomyRoom:
@@ -76,8 +100,8 @@ public class Hover : MonoBehaviour
             case RoomToOpen.KeypadClose:
                 _action = _rm.ShowKeypadClose;
                 break;
-            case RoomToOpen.PCDDeskClose:
-                _action = _rm.ShowPCDDeskClose;
+            case RoomToOpen.PCDeskClose:
+                _action = _rm.ShowPCDeskClose;
                 break;
             case RoomToOpen.TrashcanClose:
                 _action = _rm.ShowTrashcanClose;
@@ -87,26 +111,7 @@ public class Hover : MonoBehaviour
                 break;
         }
         
-        UnityEventTools.AddPersistentListener(_event, _action);
-    }
-    
-    private void OnMouseOver()
-    {
-        if (!_once)
-        {
-            _sr.material = _outlineMat;
-            _once = true;
-        }
-    }
-
-    private void OnMouseExit()
-    {
-        _sr.material = _defaultMat;
-        _once = false;
-    }
-
-    private void OnMouseDown()
-    {
-        _event.Invoke();
+        _event.RemoveAllListeners();
+        _event.AddListener(_action);
     }
 }
