@@ -6354,7 +6354,7 @@ MonoBehaviour:
   _event:
     m_PersistentCalls:
       m_Calls: []
-  roomToOpen: 6
+  roomToOpen: 2
 --- !u!61 &612574159
 BoxCollider2D:
   m_ObjectHideFlags: 0
