@@ -1,20 +1,8 @@
 using UnityEngine.Events;
 using UnityEngine;
 
-
-public class Hover : MonoBehaviour
+public class Hover : HoverBase
 {
-    public UnityEvent _event;
-    private UnityAction _action;
-    
-    private Material _defaultMat;
-    private Material _outlineMat;
-
-    private SpriteRenderer _sr;
-    private RoomManager _rm;
-    
-    private bool _once = false;
-    
     public enum RoomToOpen 
     {
         AnatomyRoom,
@@ -32,43 +20,12 @@ public class Hover : MonoBehaviour
 
     [SerializeField] public RoomToOpen roomToOpen;
 
-    private void Awake()
+    protected override void Awake()
     {
-        _defaultMat = Resources.Load<Material>("Materials/Default");
-        _outlineMat = Resources.Load<Material>("Materials/Outline");
-
-        _sr = GetComponent<SpriteRenderer>();
-        
-        _rm = FindObjectOfType<RoomManager>();
-
+        base.Awake();
         ActionSwitcher();
     }
     
-    private void OnMouseOver()
-    {
-        if (!_once)
-        {
-            _sr.material = _outlineMat;
-            _once = true;
-        }
-    }
-
-    private void OnMouseExit()
-    {
-        _sr.material = _defaultMat;
-        _once = false;
-    }
-
-    private void OnMouseDown()
-    {
-        _event.Invoke();
-        
-        _sr.material = _defaultMat;
-        _once = false;
-        
-        Debug.Log(_rm._currentRoom);
-    }
-
     private void ActionSwitcher()
     {
         switch (roomToOpen)
