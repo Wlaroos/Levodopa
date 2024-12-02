@@ -1,7 +1,6 @@
 using UnityEngine.Events;
 using UnityEngine;
 
-
 public class HoverBase : MonoBehaviour
 {
     public UnityEvent _event;
@@ -12,6 +11,8 @@ public class HoverBase : MonoBehaviour
 
     private SpriteRenderer _sr;
     protected RoomManager _rm;
+    protected InspectPopup _ip;
+    protected CollectPopup _cp;
     
     private bool _once = false;
 
@@ -23,6 +24,8 @@ public class HoverBase : MonoBehaviour
         _sr = GetComponent<SpriteRenderer>();
         
         _rm = FindObjectOfType<RoomManager>();
+        _ip = FindObjectOfType<InspectPopup>();
+        _cp = FindObjectOfType<CollectPopup>();
     }
     
     private void OnMouseOver()
@@ -42,7 +45,7 @@ public class HoverBase : MonoBehaviour
         _once = false;
     }
 
-    private void OnMouseDown()
+    protected virtual void OnMouseDown()
     {
         _event.Invoke();
         

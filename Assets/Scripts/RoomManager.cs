@@ -55,8 +55,8 @@ public class RoomManager : MonoBehaviour
         _backButton.SetActive(true);
         
         // I don't know why this has to be here. It breaks if I put it in SetButtonListeners. Wasted like 2 hours trying to figure this out.
-        _backButton.GetComponent<Hover>()._event.RemoveAllListeners();
-        _backButton.GetComponent<Hover>()._event.AddListener(_backAction);
+        _backButton.GetComponent<HoverRoomChange>()._event.RemoveAllListeners();
+        _backButton.GetComponent<HoverRoomChange>()._event.AddListener(_backAction);
     }
     private void HideBackButton()
     {
@@ -75,11 +75,11 @@ public class RoomManager : MonoBehaviour
 
     private void SetButtonListeners()
     {
-        _leftButton.GetComponent<Hover>()._event.RemoveAllListeners();
-        _rightButton.GetComponent<Hover>()._event.RemoveAllListeners();
+        _leftButton.GetComponent<HoverRoomChange>()._event.RemoveAllListeners();
+        _rightButton.GetComponent<HoverRoomChange>()._event.RemoveAllListeners();
         
-        _leftButton.GetComponent<Hover>()._event.AddListener(_leftAction);
-        _rightButton.GetComponent<Hover>()._event.AddListener(_rightAction);
+        _leftButton.GetComponent<HoverRoomChange>()._event.AddListener(_leftAction);
+        _rightButton.GetComponent<HoverRoomChange>()._event.AddListener(_rightAction);
     }
 
     private void ShowBackgroundWalls()

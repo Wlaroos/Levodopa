@@ -1,7 +1,7 @@
 using UnityEngine.Events;
 using UnityEngine;
 
-public class Hover : HoverBase
+public class HoverRoomChange : HoverBase
 {
     public enum RoomToOpen 
     {
