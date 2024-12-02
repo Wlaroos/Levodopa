@@ -19,12 +19,9 @@ public class HoverInteract : HoverBase
     {
         base.OnMouseDown();
 
-        if (_rm._popupsOpen <= 0)
+        /*if (_rm._popupsOpen <= 0)
         {
-            if (_description != null)
-            {
-                _ip.Inspect(_description);
-            }
-        }
+            _ip.Inspect(_description);
+        }*/
     }
 }

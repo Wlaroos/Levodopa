@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Keypad : MonoBehaviour
 {
-    [SerializeField] private GameObject _scrawlRoomDoor;
+    public UnityEvent _event;
     
     private TextMeshPro[] _inputs = new TextMeshPro[4];
     private KeypadButtons[] _keypadButtons = new KeypadButtons[12];
@@ -54,9 +54,7 @@ public class Keypad : MonoBehaviour
                     Destroy(button);
                 }
 
-                Destroy(_scrawlRoomDoor.GetComponent<HoverInspect>());
-                HoverRoomChange hrc = _scrawlRoomDoor.AddComponent<HoverRoomChange>();
-                hrc.roomToOpen = HoverRoomChange.RoomToOpen.ScrawlRoom;
+                _event.Invoke();
             }
             else
             {
