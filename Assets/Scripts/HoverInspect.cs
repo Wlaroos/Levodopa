@@ -9,7 +9,11 @@ public class HoverInspect : HoverBase
     protected override void OnMouseDown()
     {
         base.OnMouseDown();
-        _ip.Inspect(_description);
+
+        if (_rm._popupsOpen <= 0)
+        {
+            _ip.Inspect(_description);
+        }
     }
     
 }

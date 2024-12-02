@@ -12,7 +12,6 @@ public class HoverBase : MonoBehaviour
     private SpriteRenderer _sr;
     protected RoomManager _rm;
     protected InspectPopup _ip;
-    protected CollectPopup _cp;
     
     private bool _once = false;
 
@@ -25,12 +24,11 @@ public class HoverBase : MonoBehaviour
         
         _rm = FindObjectOfType<RoomManager>();
         _ip = FindObjectOfType<InspectPopup>();
-        _cp = FindObjectOfType<CollectPopup>();
     }
     
     private void OnMouseOver()
     {
-        if (!_once)
+        if (!_once && _rm._popupsOpen <= 0)
         {
             //_sr.material = _outlineMat;
             _sr.color = new Color32(255,200,200,255);
@@ -47,10 +45,13 @@ public class HoverBase : MonoBehaviour
 
     protected virtual void OnMouseDown()
     {
-        _event.Invoke();
-        
-        //_sr.material = _defaultMat;
-        _sr.color = Color.white;
-        _once = false;
+        if(_rm._popupsOpen <= 0)
+        {
+            _event.Invoke();
+
+            //_sr.material = _defaultMat;
+            _sr.color = Color.white;
+            _once = false;
+        }
     }
 }

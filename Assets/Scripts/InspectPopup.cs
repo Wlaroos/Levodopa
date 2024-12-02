@@ -23,10 +23,13 @@ public class InspectPopup : MonoBehaviour
 
     public void Inspect(string text)
     {
-        _textMesh.text = text;
-        
-        StopAllCoroutines();
-        StartCoroutine(PopupFade());
+        if (text != null)
+        {
+            _textMesh.text = text;
+
+            StopAllCoroutines();
+            StartCoroutine(PopupFade());
+        }
     }
 
     private IEnumerator PopupFade()

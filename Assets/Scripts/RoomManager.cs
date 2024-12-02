@@ -35,6 +35,9 @@ public class RoomManager : MonoBehaviour
     private UnityAction _backAction;
     private UnityAction _leftAction;
     private UnityAction _rightAction;
+
+    private bool _isPopup;
+    public int _popupsOpen;
     
     private void Awake()
     {
