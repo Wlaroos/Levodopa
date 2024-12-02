@@ -43,7 +43,10 @@ public class Popup : MonoBehaviour
         _rm._popupsOpen = 0;
         foreach (var pop in FindObjectsOfType<Popup>())
         {
-            _rm._popupsOpen += 1;
+            if (pop.isActiveAndEnabled)
+            {
+                _rm._popupsOpen += 1;
+            }
         }
     }
 }

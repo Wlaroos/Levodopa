@@ -1,10 +1,8 @@
-using UnityEngine.Events;
 using UnityEngine;
 
-
-public class HoverInteract : HoverBase
+public class CageFeederEvent : HoverInspect
 {
-    [SerializeField] private string _description;
+    [SerializeField] private GameObject _mouseBites;
     
     protected override void Awake()
     {
@@ -17,13 +15,14 @@ public class HoverInteract : HoverBase
     
     protected override void OnMouseDown()
     {
-        base.OnMouseDown();
-
         if (_rm._popupsOpen <= 0)
         {
-            if (_description != null)
+            _ip.Inspect(_description);
+            
+            if (_mouseBites.activeSelf)
             {
-                _ip.Inspect(_description);
+                _event.Invoke();
+                Destroy(_mouseBites);
             }
         }
     }

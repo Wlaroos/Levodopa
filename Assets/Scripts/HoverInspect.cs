@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HoverInspect : HoverBase
 {
-    [SerializeField] private string _description;
+    [SerializeField] protected string _description;
     
     protected override void OnMouseDown()
     {

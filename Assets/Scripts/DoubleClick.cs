@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -14,6 +15,8 @@ public class DoubleClick : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
     [Header("Image to darken on hover")]
     [SerializeField] private Image _imageToChange;
     
+    public UnityEvent _event;
+    
     private Color _color;
     private Color _initialColor;
     private bool _isToggled;
@@ -26,7 +29,7 @@ public class DoubleClick : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         }
         
         _initialColor = _imageToChange.color;
-        _color = new Color(_initialColor.r - 33, _initialColor.g - 33, _initialColor.b - 33, 0.5f);
+        _color = new Color(_initialColor.r - 0.125f, _initialColor.g - 0.125f, _initialColor.b - 0.125f, 0.5f);
         
     }
 
@@ -74,17 +77,33 @@ public class DoubleClick : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
             {
                 foreach (var obj in _objects)
                 {
-                    obj.SetActive(true);
+                    if (obj.GetComponent<Popup>() != null)
+                    {
+                        obj.GetComponent<Popup>().ShowPopup();
+                    }
+                    else
+                    {
+                        obj.SetActive(true);
+                    }
                 }
             }
             else
             {
                 foreach (var obj in _objects)
                 {
-                    obj.SetActive(false);
+                    if (obj.GetComponent<Popup>() != null)
+                    {
+                        obj.GetComponent<Popup>().HidePopup();
+                    }
+                    else
+                    {
+                        obj.SetActive(false);
+                    }
                 }
             }
         }
+        
+        _event.Invoke();
     }
     
     private void SingleClicked()
