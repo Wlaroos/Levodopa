@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.Events;
 using UnityEngine;
 
@@ -25,7 +26,14 @@ public class HoverBase : MonoBehaviour
         _rm = FindObjectOfType<RoomManager>();
         _ip = FindObjectOfType<InspectPopup>();
     }
-    
+
+    private void OnDestroy()
+    {
+        //_sr.material = _defaultMat;
+        _sr.color = Color.white;
+        _once = false;
+    }
+
     private void OnMouseOver()
     {
         if (!_once && _rm._popupsOpen <= 0)
